@@ -1,0 +1,19 @@
+custom_book:
+    resource: "@CustomBookBundle/Resources/config/routing.yml"
+    prefix:   /
+
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
+
+user_registration:
+    path:     /register
+    defaults: { _controller: AppBundle:Registration:register }
+
+login:
+    path:     /login
+    defaults: { _controller: AppBundle:Security:login }
+
+login_check:
+    path:     /login_check
+    defaults: { _controller: AppBundle:Security:loginCheck }

@@ -1,0 +1,40 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/book/security.html
+security:
+    hide_user_not_found: false
+    encoders:
+        AppBundle\Entity\User:
+            algorithm: bcrypt
+
+    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
+    providers:
+        our_db_provider:
+            entity:
+                class: AppBundle:User
+                property: username
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            pattern: ^/
+            provider: our_db_provider
+            form_login:
+                login_path: /login
+                check_path: /login
+                default_target_path: /book
+                username_parameter: _username
+                password_parameter: _password
+            logout: true
+            anonymous: true
+        default:
+            anonymous: ~
+            http_basic: ~
+
+    access_control:
+        - { path: ^/book, roles: ROLE_ADMIN }
+
+    acl:
+        connection: default
